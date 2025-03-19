@@ -1,0 +1,42 @@
+<%= form_with(model: [@project, report_mail_task]) do |form| %>
+  <% if report_mail_task.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(report_mail_task.errors.count, "error") %> prohibited this report_mail_task from being saved:</h2>
+
+      <ul>
+        <% report_mail_task.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-2">
+    <%= form.label :issue_number %>
+    <%= form.text_field :issue_number, class: 'form-control' %>
+  </div>
+
+  <div class="mb-2">
+    <%= form.label :description %>
+    <%= form.text_area :description, class: 'form-control', autofocus: true %>
+  </div>
+
+  <div class="mb-2">
+    <%= form.label :progress_status %>
+    <%= form.text_field :progress_status, value: form.object.progress_status.presence || 'done', class: 'form-control' %>
+  </div>
+
+  <div class="mb-2">
+    <%= form.label :deploy_status %>
+    <%= form.text_field :deploy_status, value: form.object.deploy_status || 'staging', class: 'form-control' %>
+  </div>
+
+  <div class="mb-2">
+    <%= form.label :notes %>
+    <%= form.text_area :notes, class: 'form-control' %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

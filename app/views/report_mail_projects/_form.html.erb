@@ -1,0 +1,48 @@
+<%= form_with(model: [@report_mail, report_mail_project]) do |form| %>
+  <% if report_mail_project.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(report_mail_project.errors.count, "error") %> prohibited this report_mail_project from being saved:</h2>
+
+      <ul>
+        <% report_mail_project.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-2">
+    <%= form.label :name %>
+    <%= form.text_field :name, class: 'form-control' %>
+  </div>
+
+  <div class="mb-2">
+    <%= form.label :to %>
+    <%= form.text_field :to, class: 'form-control' %>
+    <%= form.label :to do %>
+      <span class="form-text"><code>name &lt;email_address&gt;(; name_2 &lt;email_address_2&gt;)</code></span>
+    <% end %>
+  </div>
+
+  <div class="mb-2">
+    <%= form.label :server_urls %>
+    <%= form.text_area :server_urls, value: form.object.string_server_urls, class: 'form-control' %>
+    <%= form.label :server_urls do %>
+      <span class="form-text">Newline separated <code>name|url</code></span>
+    <% end %>
+  </div>
+
+  <div class="mb-2">
+    <%= form.label :features_ready_title %>
+    <%= form.text_field :features_ready_title, class: 'form-control' %>
+  </div>
+
+  <div class="mb-2">
+    <%= form.label :features_ready %>
+    <%= form.text_area :features_ready, class: 'form-control', style: 'min-height: 400px;' %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

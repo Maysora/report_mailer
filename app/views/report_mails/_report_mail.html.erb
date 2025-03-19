@@ -1,0 +1,40 @@
+<div id="<%= dom_id report_mail %>" class="card border-primary">
+  <div class="card-body">
+    <p class="<%= 'bg-warning' if !report_mail.sent? && report_mail.date != Time.zone.today %>">
+      <strong>Date:</strong>
+      <%= report_mail.date %>
+    </p>
+
+    <p>
+      <strong>To:</strong>
+      <%= report_mail.to %>
+    </p>
+
+    <p>
+      <strong>CC:</strong>
+      <%= report_mail.cc %>
+    </p>
+
+    <p>
+      <strong>Subject:</strong>
+      <%= report_mail.subject %>
+    </p>
+
+    <p>
+      <strong>Template:</strong>
+      <%= report_mail.template %>
+    </p>
+
+    <p>
+      <strong>Signature:</strong>
+      <%= report_mail.signature&.html_safe %>
+    </p>
+
+    <p>
+      <strong>Status:</strong>
+      <span class="text-<%= report_mail.draft? ? 'secondary' : report_mail.ready? ? 'info' : 'success' %>">
+        <%= report_mail.status %>
+      </span>
+    </p>
+  </div>
+</div>

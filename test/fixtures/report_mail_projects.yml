@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  report_mail: one
+  name: MyString
+  features_ready_title: MyString
+  features_ready: MyText
+
+two:
+  report_mail: two
+  name: MyString
+  features_ready_title: MyString
+  features_ready: MyText

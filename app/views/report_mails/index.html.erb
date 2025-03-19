@@ -1,0 +1,15 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Report mails</h1>
+
+<div id="report_mails">
+  <% @report_mails.each do |report_mail| %>
+    <%= render report_mail %>
+    <p>
+      <%= link_to "Show this report mail", report_mail %> |
+      <%= link_to "Preview", '#', onclick: "window.open('/rails/mailers/report_mailer/send_report?id=#{report_mail.id}', 'mail_preview_#{report_mail.id}'); return false;" %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New report mail", new_report_mail_path %>

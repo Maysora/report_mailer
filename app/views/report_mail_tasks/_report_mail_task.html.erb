@@ -1,0 +1,28 @@
+<div id="<%= dom_id report_mail_task %>" class="card <%= report_mail_task.active? ? 'border-primary' : 'border-secondary text-muted' %>">
+  <div class="card-body">
+    <p>
+      <strong>Issue number:</strong>
+      <%= report_mail_task.issue_number %>
+    </p>
+
+    <p>
+      <strong>Description:</strong>
+      <%= render_markdown(report_mail_task.description) %>
+    </p>
+
+    <p>
+      <strong>Progress status:</strong>
+      <%= report_mail_task.progress_status %>
+    </p>
+
+    <p>
+      <strong>Deploy status:</strong>
+      <%= render_markdown(report_mail_task.deploy_status) %>
+    </p>
+
+    <p>
+      <strong>Notes:</strong>
+      <%= n2br report_mail_task.notes %>
+    </p>
+  </div>
+</div>

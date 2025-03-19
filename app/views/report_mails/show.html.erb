@@ -1,0 +1,31 @@
+<p style="color: green"><%= notice %></p>
+<p style="color: red"><%= alert %></p>
+<div class="card border-primary mb-4">
+  <div class="card-body">
+    <%= render @report_mail %>
+    <%= link_to "Edit this report mail", edit_report_mail_path(@report_mail) %> |
+    <%= link_to "Preview", '#', onclick: "window.open('/rails/mailers/report_mailer/send_report?id=#{@report_mail.id}', 'mail_preview_#{@report_mail.id}'); return false;" %>
+    <div class="my-4 d-flex justify-content-between">
+      <%= button_to "Duplicate", [:duplicate, @report_mail], method: :post %>
+      <%= button_to @report_mail.draft? ? 'Ready' : @report_mail.ready? ? "Send this report mail" : 'Draft', [:send_email, @report_mail], method: :post, data: { turbo_confirm: @report_mail.draft? ? nil : @report_mail.ready? ? "Send this report mail?" : 'Set draft?' } %>
+      <%= button_to "Destroy this report mail", @report_mail, method: :delete, data: { turbo_confirm: 'Delete?' } %>
+    </div>
+    <%= link_to "Back to report mails", report_mails_path %>
+  </div>
+</div>
+
+<div class="card border-info mb-4">
+  <div class="card-body">
+    <h1>Report mail projects</h1>
+
+    <div id="report_mail_projects" class="mb-4">
+      <% @report_mail.projects.includes(:active_tasks).each do |project| %>
+        <div class="mb-2 h4 ps-3">
+          <%= link_to safe_join([project.long_name, project.active_tasks.present? ? content_tag(:span, project.active_tasks.length, class: 'badge rounded-pill text-bg-primary') : nil].compact, ' '), [@report_mail, project], class: "btn btn-sm btn-outline-#{project.active? ? 'primary' : 'secondary'}" %>
+        </div>
+      <% end %>
+    </div>
+
+    <%= link_to "New report mail project", new_report_mail_report_mail_project_path(@report_mail) %>
+  </div>
+</div>

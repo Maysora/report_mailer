@@ -1,0 +1,28 @@
+<%-
+  cols = 50
+  label_cols = 20
+-%>
+Hi,
+
+Here's my work report on <%= @report.date.strftime('%e %b %Y') %>:
+
+<%- @tasks.each do |task| -%>
+<%= '-' * cols %>
+  <%= 'Ticket #'.ljust(label_cols) %> : <%= task.issue_number.presence || '-' %>
+  <%= 'Description'.ljust(label_cols) %> : <%= render_markdown(task.description.present? ? "#{task.project.name} #{task.description}" : '-', format: :text).strip.gsub("\n", "\n#{' ' * (label_cols + 5)}") %>
+  <%= 'Status'.ljust(label_cols) %> : <%= render_markdown(task.progress_status.presence || '-', format: :text).strip.gsub("\n", "\n#{' ' * (label_cols + 5)}") %>
+  <%= 'Deployed on Server?'.ljust(label_cols) %> : <%= task.deploy_status.presence || '-' %>
+  <%= 'Notes'.ljust(label_cols) %> : <%= render_markdown(task.notes.presence || '-', format: :text).strip.gsub("\n", "\n#{' ' * (label_cols + 5)}") %>
+<%= '-' * cols %>
+
+<%- end -%>
+<%- @report.projects.each do |project| -%>
+<%- next unless project.features_ready.present? -%>
+<%= title_text = " #{project.name} ".center(cols - 2, '=') %>
+<%= " #{project.features_ready_title} ".center([title_text.length, cols - 2].min, '=') if project.features_ready_title.present? %>
+<%= '=' * [title_text.length, cols].min %>
+<%= render_markdown(project.features_ready, format: :text).strip.gsub(/^/, '  ') %>
+<%= '=' * [title_text.length, cols].min %>
+
+<%- end -%>
+<%= sanitize(@report.signature, tags: %w[br hr]).gsub(/\<br[^\>]*\>/, "\n").gsub(/\s{2,}/, "\n").gsub(/\<hr[^\>]*\>\n?/, "#{'-' * label_cols}\n" ) %>

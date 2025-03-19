@@ -1,0 +1,47 @@
+<%= form_with(model: report_mail) do |form| %>
+  <% if report_mail.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(report_mail.errors.count, "error") %> prohibited this report_mail from being saved:</h2>
+
+      <ul>
+        <% report_mail.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :date, style: "display: block" %>
+    <%= form.text_field :date %>
+  </div>
+
+  <div>
+    <%= form.label :to, style: "display: block" %>
+    <%= form.text_field :to %>
+  </div>
+
+  <div>
+    <%= form.label :cc, style: "display: block" %>
+    <%= form.text_field :cc %>
+  </div>
+
+  <div>
+    <%= form.label :subject, style: "display: block" %>
+    <%= form.text_field :subject %>
+  </div>
+
+  <div>
+    <%= form.label :template, style: "display: block" %>
+    <%= form.select :template, ReportMail::TEMPLATES %>
+  </div>
+
+  <div>
+    <%= form.label :signature, style: "display: block" %>
+    <%= form.text_area :signature, value: form.object.signature.presence || Setting['mail_signature'] %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

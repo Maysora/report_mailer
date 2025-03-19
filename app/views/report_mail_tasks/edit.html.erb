@@ -1,0 +1,10 @@
+<h1>Editing report mail task</h1>
+
+<%= render "form", report_mail_task: @report_mail_task %>
+
+<br>
+
+<div>
+  <%= link_to "Show this report mail task", [@project, @report_mail_task] %> |
+  <%= link_to "Back to report mail projects", [@project.report_mail, @project] %>
+</div>

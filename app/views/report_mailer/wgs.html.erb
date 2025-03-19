@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <title></title>
+  <style>
+    .features-ready .features-ready-content {
+      max-height: 0;
+      transition: max-height 0.7s 0.6s;
+    }
+    .features-ready .features-ready-header > .arrow-icon {
+      font-family: "Arial";
+      float: right;
+      margin-right: 10px;
+      font-size: 16pt;
+      transform: translateY(-8px);
+      transition: transform 0.7s 1.1s;
+    }
+    .features-ready:hover .features-ready-header > .arrow-icon {
+      transform: rotateX(-180deg) translateY(5px);
+      transition-delay: 0.3s;
+    }
+    .features-ready:hover .features-ready-content {
+      max-height: 2000px;
+      transition-delay: 0.2s;
+    }
+    ul, p {
+      margin: 0;
+    }
+    h1, h2, h3, h4, h5 {
+      margin: 4px;
+    }
+    code {
+      background-color: #f0f0f0;
+      color: #1f1f1f;
+      font-size: 90%;
+      padding: 2px 4px;
+    }
+  </style>
+</head>
+<body lang="en-ID" dir="ltr"><p style="margin-bottom: 0in; font-variant: normal; letter-spacing: normal; font-style: normal; font-weight: normal; line-height: 100%">
+  <font size="2" style="font-size: 12pt">
+    Hi,
+    <br>
+    <br>
+    Here's my work report for <%= @report.date.strftime('%e %b %Y') %>:
+  </font>
+</p>
+<br>
+
+<table cellspacing="0" cellpadding="6" style="background: transparent; font-size: 9pt; width: 100%;">
+  <tr>
+    <td width="67" bgcolor="#2a6099" style="background: #2a6099" style="border: 1px solid #2a6099; border-bottom: none;"><center>
+      <font color="#ffffff"><font face="Helvetica Neue"><font size="2" style="font-size: 9pt;"><b>Ticket#</b></font></font></font></center>
+    </td>
+    <td bgcolor="#2a6099" style="background: #2a6099" style="border-top: 1px solid #ffffff; border-bottom: none; border-left: 1px solid #ffffff; border-right: none; "><center>
+      <font color="#ffffff"><font face="Helvetica Neue"><font size="2" style="font-size: 9pt"><b>Description</b></font></font></font>
+    </td>
+    <td width="88" bgcolor="#2a6099" style="background: #2a6099" style="border-top: 1px solid #ffffff; border-bottom: none; border-left: none; border-right: none; "><center>
+      <font color="#ffffff"><font face="Helvetica Neue"><font size="2" style="font-size: 9pt"><b>Status</b></font></font></font>
+    </td>
+    <td width="108" bgcolor="#2a6099" style="background: #2a6099" style="border-top: 1px solid #ffffff; border-bottom: none; border-left: 1px solid #ffffff; border-right: 1px solid #ffffff; "><center>
+      <font color="#ffffff"><font face="Helvetica Neue"><font size="2" style="font-size: 9pt"><b>Deployed on Server?</b></font></font></font>
+    </td>
+    <td width="350" bgcolor="#2a6099" style="background: #2a6099" style="border-top: none; border-bottom: none; border-left: none; border-right: 1px solid #2a6099; "><center>
+      <font color="#ffffff"><font face="Helvetica Neue"><font size="2" style="font-size: 9pt"><b>Notes</b></font></font></font>
+    </td>
+  </tr>
+  <%- @tasks.each do |task| -%>
+    <tr>
+      <td width="67" style="border-top: 1px solid #2a6099; border-bottom: 1px solid #2a6099; border-left: 1px solid #2a6099; border-right: none; "><center>
+        <font face="Helvetica Neue" size="2" style="font-size: 9pt">
+          <b><%= task.issue_number.presence || '-' %></b>
+        </font>
+      </td>
+      <td style="border-top: 1px solid #2a6099; border-bottom: 1px solid #2a6099; border-left: 1px solid #2a6099; border-right: none;  overflow: hidden;">
+        <font face="Helvetica Neue" size="2" style="font-size: 9pt">
+          <%= render_markdown(task.description.present? ? "#{task.project.name} #{task.description}" : '-') %>
+        </font>
+      </td>
+      <td width="88" style="border-top: 1px solid #2a6099; border-bottom: 1px solid #2a6099; border-left: 1px solid #2a6099; border-right: none; ">
+        <font face="Helvetica Neue" size="2" style="font-size: 9pt">
+          <center><%= render_markdown(task.progress_status.presence || '-') %></center>
+        </font>
+      </td>
+      <td width="108" style="border-top: 1px solid #2a6099; border-bottom: 1px solid #2a6099; border-left: 1px solid #2a6099; border-right: none; ">
+        <font face="Helvetica Neue" size="2" style="font-size: 9pt">
+          <center><%= render_markdown(task.deploy_status_with_link.presence || '-') %></center>
+        </font>
+      </td>
+      <td width="350" style="padding: 0 10px; border: 1px solid #2a6099; g: normal; font-style: normal; font-weight: normal;  overflow: hidden;">
+        <font face="Helvetica Neue" size="2" style="font-size: 9pt;">
+          <%= render_markdown(task.notes.presence || '-') %>
+        </font>
+      </td>
+    </tr>
+  <%- end -%>
+</table>
+<%- @projects.each do |project| -%>
+  <%- next unless project.features_ready.present? -%>
+  <div class="features-ready" style="width: 100%; border: 1px solid #2a6099; margin-top: 20px;">
+    <div class="features-ready-header" style="background: #2a6099; border-bottom: 1px solid #2a6099; color: #ffffff; font-size: 12pt; font-weight: normal; padding: 8px 4px 4px;">
+      <%= project.name %>
+      <%= project.features_ready_title.presence || 'Features ready on staging' %>
+      <div class="arrow-icon">
+        ▾
+      </div>
+    </div>
+    <div class="features-ready-content" style="height: auto; overflow: hidden; margin: 2px 0;">
+      <div>
+        <%= render_markdown(project.features_ready) %>
+      </div>
+    </div>
+  </div>
+<%- end -%>
+<br>
+<div style="width:0 !important; max-width:0 !important; height: 0 !important; max-height:0 !important; overflow:hidden !important; background-color: white !important; color: white !important; font-size: 1px !important;">
+  <%= SecureRandom.uuid %>
+</div>
+<div>
+  <%= @report.signature&.html_safe %>
+</div>
+<div style="background-color: white !important; color: white !important; font-size: 1px !important;">
+  <%= SecureRandom.uuid %>
+</div>
+</body>
+</html>

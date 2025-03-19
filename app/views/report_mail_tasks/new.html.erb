@@ -1,0 +1,10 @@
+<h1>New report mail task</h1>
+
+<%= render "form", report_mail_task: @report_mail_task %>
+
+<br>
+
+<div>
+  <%= link_to "Back to report mail tasks", [@project, ReportMailTask] %>
+  <%= link_to "Back to report mail projects", [@project.report_mail, @project] %>
+</div>

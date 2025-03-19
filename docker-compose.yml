@@ -1,0 +1,56 @@
+name: tools
+volumes:
+  postgres: {}
+  gemcache_arm:
+    external: true
+services:
+  db:
+    image: postgres:16
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: change_me
+    volumes:
+      - postgres:/var/lib/postgresql/data
+  web: &default
+    build: .
+    volumes:
+      - .:/my_app:cached
+      - gemcache_arm:/gemcache
+    environment: &app_env
+      APP_ENV: development
+      EDITOR: nano
+      DB_HOSTNAME: db
+      DB_NAME: tools_development
+      DB_TEST_NAME: tools_test
+      DB_USERNAME: postgres
+      DB_PASSWORD: change_me
+      RACK_ENV: development
+      RAILS_ENV: development
+      BUNDLE_PATH: /gemcache
+      TZ: Asia/Jakarta
+      APP_HOST: localhost
+      APP_EMAIL: local@localhost.test
+      APP_PORT: 80
+      MAIL_ENABLE: false
+      MAIL_METHOD: smtp
+      MAIL_ADDRESS: change_me
+      MAIL_PORT: 587
+      MAIL_DOMAIN: localhost
+      MAIL_USERNAME: change_me
+      MAIL_PASSWORD: change_me
+      MAIL_AUTHENTICATION: plain
+    command: bash -c "rm -f tmp/pids/server.pid && ./bin/rails server -p 80 -b '0.0.0.0'"
+    stop_signal: SIGINT
+    ports:
+      - "80:80"
+    tty: true
+    stdin_open: true
+  # js:
+  #   <<: *default
+  #   command: yarn build --watch
+  #   ports: []
+  # css:
+  #   <<: *default
+  #   command: yarn build:css --watch
+  #   ports: []

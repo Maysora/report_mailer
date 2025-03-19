@@ -1,0 +1,30 @@
+<div id="<%= dom_id report_mail_project %>" class="card border-primary">
+  <div class="card-body">
+    <p>
+      <strong>Name:</strong>
+      <%= report_mail_project.name %>
+    </p>
+
+    <p>
+      <strong>To:</strong>
+      <%= report_mail_project.to %>
+    </p>
+
+    <p>
+      <strong>Server URLs:</strong>
+      <%= report_mail_project.server_urls %>
+    </p>
+
+    <p>
+      <strong>Features ready title:</strong>
+      <%= report_mail_project.features_ready_title %>
+    </p>
+
+    <p>
+      <strong>Features ready:</strong>
+    </p>
+    <div style="max-height: 200px; overflow: auto;">
+      <%= render_markdown(report_mail_project.features_ready) %>
+    </div>
+  </div>
+</div>

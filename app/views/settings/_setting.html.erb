@@ -1,0 +1,7 @@
+<div id="<%= dom_id setting %>">
+  <%= setting.name %>
+</div>
+<p>
+  <%= link_to "Edit", edit_setting_path(setting) %> |
+  <%= link_to "Destroy", setting, method: :delete %>
+</p>

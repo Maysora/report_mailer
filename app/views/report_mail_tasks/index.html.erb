@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Report mail tasks</h1>
+
+<div id="report_mail_tasks">
+  <% @report_mail_tasks.each do |report_mail_task| %>
+    <%= render report_mail_task %>
+    <p>
+      <%= link_to "Show this report mail task", [@project, report_mail_task] %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New report mail task", new_report_mail_project_report_mail_task_path(@project) %>
