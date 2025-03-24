@@ -8,7 +8,7 @@ class ReportMailProject < ApplicationRecord
   serialize :server_urls
 
   scope :active, -> {
-    q = left_joins(:active_tasks)
+    q = distinct.left_joins(:active_tasks)
     q.where("#{table_name}.features_ready LIKE ?", '%Draft%').or(q.merge(ReportMailTask.active))
   }
 
