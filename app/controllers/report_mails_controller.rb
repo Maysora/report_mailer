@@ -3,7 +3,46 @@ class ReportMailsController < ApplicationController
 
   # GET /report_mails
   def index
-    @report_mails = ReportMail.order(status: :asc, date: :desc).limit(50).all
+    @report_mails = ReportMail.order(status: :asc, date: :desc)
+    @report_mails =
+      if params[:incomplete_tasks_data]
+        @report_mails
+          .with_incomplete_data
+          .where(date: date_filter.all_month)
+      else
+        @report_mails.limit(50)
+      end
+  end
+
+  # GET /report_mails/monthly_summary
+  def monthly_summary
+    @report_mail_tasks = ReportMailTask
+      .with_complete_data
+      .joins(project: :report_mail)
+      .merge(
+        ReportMail.where(date: date_filter.all_month)
+      )
+      .select("#{ReportMailTask.table_name}.*")
+      .select("#{ReportMailProject.table_name}.name project_name")
+      .select("#{ReportMail.table_name}.template template")
+    total_weight_percentage = @report_mail_tasks.sum(&:weight_percentage)
+    @summary_data = @report_mail_tasks
+      .group_by(&:template)
+      .transform_values do |tasks_by_template|
+        tasks_by_template
+          .group_by(&:project_name)
+          .map do |project_name, tasks_by_project|
+            tasks_by_project
+              .group_by(&:category)
+              .map do |category, tasks_by_category|
+                {
+                  project_name: project_name,
+                  category: category,
+                  weight_percentage: (tasks_by_category.sum(&:weight_percentage) / total_weight_percentage) * 100
+                }
+              end
+        end.flatten(1)
+      end
   end
 
   # GET /report_mails/1
@@ -74,5 +113,9 @@ class ReportMailsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def report_mail_params
       params.require(:report_mail).permit(:date, :to, :cc, :subject, :template, :signature)
+    end
+
+    def date_filter
+      @date_filter ||= params[:date].present? ? Time.zone.parse(params[:date]) : Time.zone.today
     end
 end

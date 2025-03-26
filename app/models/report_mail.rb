@@ -1,14 +1,28 @@
 class ReportMail < ApplicationRecord
   TEMPLATES = %i[wgs].freeze
   has_many :projects, -> { order(:name, :id) }, class_name: 'ReportMailProject', dependent: :destroy
+  has_many :active_tasks, through: :projects
 
   enum :status, draft: 'draft', ready: 'ready', sent: 'sent'
 
   before_validation :set_default_attributes
+  before_validation :calculate_tasks_weight_percentage!, if: -> { status_changed? && ready? }
   before_save :set_status, unless: :status_changed?
 
   validates :date, presence: true
   validates :message_id, uniqueness: { allow_nil: true }
+  validates :total_tasks_weight_percentage, numericality: { equal_to: 100 }, if: -> { status_changed? && ready? }
+
+  scope :with_complete_data, -> {
+    distinct
+      .joins(:active_tasks)
+      .merge(ReportMailTask.with_complete_data)
+  }
+  scope :with_incomplete_data, -> {
+    distinct
+      .joins(:active_tasks)
+      .merge(ReportMailTask.with_incomplete_data)
+  }
 
   def send_email
     return if !ready?
@@ -54,6 +68,18 @@ class ReportMail < ApplicationRecord
 
   def arr_to
     to&.split(';')&.map(&:strip) || []
+  end
+
+  def total_tasks_weight
+    active_tasks.sum(&:weight)
+  end
+
+  def total_tasks_weight_percentage
+    active_tasks.map(&:weight_percentage).compact.sum
+  end
+
+  def calculate_tasks_weight_percentage!
+    active_tasks.calculate_weight_percentage!(total: total_tasks_weight)
   end
 
   private

@@ -1,0 +1,45 @@
+<%- summary_data.sort_by! { |data| -data[:weight_percentage] } -%>
+<div class="card-group">
+  <div class="card border-primary">
+    <div class="card-body">
+      <h5 class="card-title">Summary</h5>
+      <ul class="list-unstyled user-select-all">
+        <%- summary_data.each do |data| -%>
+          <%-
+            weight_percentage = data[:weight_percentage]
+            next if weight_percentage.zero?
+          -%>
+          <li>
+            -
+            <%= data[:project_name] %> |
+            <%= data[:category] %> -
+            <%= number_to_percentage(weight_percentage, strip_insignificant_zeros: true) %>
+          </li>
+        <%- end -%>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card border-success">
+    <div class="card-body">
+      <h5 class="card-title">Rounded</h5>
+      <ul class="list-unstyled user-select-all">
+        <%- remainder = 100 -%>
+        <%- summary_data.each do |data| -%>
+          <%-
+            weight_percentage = [remainder, data[:weight_percentage].round(2)].min
+            next if weight_percentage.zero?
+
+            remainder -= weight_percentage
+          -%>
+          <li>
+            -
+            <%= data[:project_name] %> |
+            <%= data[:category] %> -
+            <%= number_to_percentage(weight_percentage, strip_insignificant_zeros: true) %>
+          </li>
+        <%- end -%>
+      </ul>
+    </div>
+  </div>
+</div>

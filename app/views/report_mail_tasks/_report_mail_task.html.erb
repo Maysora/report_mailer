@@ -6,8 +6,19 @@
     </p>
 
     <p>
+      <strong>Category:</strong>
+      <%= report_mail_task.category %>
+    </p>
+
+    <p>
       <strong>Description:</strong>
       <%= render_markdown(report_mail_task.description) %>
+    </p>
+
+    <p>
+      <strong>Weight:</strong>
+      <%= number_with_delimiter(report_mail_task.weight) %>
+      <%= " (" + number_to_percentage(report_mail_task.weight_percentage) + ")" if report_mail_task.weight_percentage %>
     </p>
 
     <p>

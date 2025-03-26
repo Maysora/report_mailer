@@ -58,6 +58,6 @@ class ReportMailTasksController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def report_mail_task_params
-      params.require(:report_mail_task).permit(:issue_number, :description, :progress_status, :deploy_status, :notes)
+      params.require(:report_mail_task).permit(:issue_number, :category, :description, :weight, :progress_status, :deploy_status, :notes)
     end
 end

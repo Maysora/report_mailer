@@ -1,0 +1,13 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Report Monthly Summary</h1>
+
+<div>
+  <%= link_to("Back", report_mails_path, class: 'btn btn-outline-secondary') %>
+</div>
+
+<%- @summary_data.each do |template, summary_by_template| -%>
+  <div class="mt-2">
+    <%= render "report_mails/templates/#{template}", summary_data: summary_by_template if template.to_sym.in?(ReportMail::TEMPLATES) %>
+  </div>
+<%- end -%>

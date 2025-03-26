@@ -17,8 +17,18 @@
   </div>
 
   <div class="mb-2">
+    <%= form.label :category %>
+    <%= form.collection_select :category, ReportMailTask.categories, :first, :last, { include_blank: true }, class: 'form-select', autofocus: form.object.category.blank?, required: true %>
+  </div>
+
+  <div class="mb-2">
     <%= form.label :description %>
-    <%= form.text_area :description, class: 'form-control', autofocus: true %>
+    <%= form.text_area :description, class: 'form-control', autofocus: form.object.category.present? %>
+  </div>
+
+  <div class="mb-2">
+    <%= form.label :weight %>
+    <%= form.number_field :weight, class: 'form-control', min: 0, max: 1_000, step: 1 %>
   </div>
 
   <div class="mb-2">

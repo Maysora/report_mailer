@@ -36,6 +36,18 @@
       font-size: 90%;
       padding: 2px 4px;
     }
+    .badge {
+      display: inline-block;
+      padding: 0.25em 0.5em;
+      font-size: 0.75em;
+      font-weight: 700;
+      text-align: center;
+      white-space: nowrap;
+      vertical-align: baseline;
+      border: 1px solid rgb(255, 193, 7);
+      position: relative;
+      top: -2px;
+    }
   </style>
 </head>
 <body lang="en-ID" dir="ltr"><p style="margin-bottom: 0in; font-variant: normal; letter-spacing: normal; font-style: normal; font-weight: normal; line-height: 100%">
@@ -98,10 +110,12 @@
 </table>
 <%- @projects.each do |project| -%>
   <%- next unless project.features_ready.present? -%>
+  <%- entries_count = project.features_ready.scan(/^\s*\#{1,6}\s+/).map(&:strip).group_by(&:length).min&.last&.length || 0 # find number of headers (highest header type only) -%>
   <div class="features-ready" style="width: 100%; border: 1px solid #2a6099; margin-top: 20px;">
     <div class="features-ready-header" style="background: #2a6099; border-bottom: 1px solid #2a6099; color: #ffffff; font-size: 12pt; font-weight: normal; padding: 8px 4px 4px;">
       <%= project.name %>
       <%= project.features_ready_title.presence || 'Features ready on staging' %>
+      <%= content_tag(:span, entries_count, class: 'badge', style: 'margin-left: 4px; color: rgb(255, 193, 7);') if entries_count.nonzero? %>
       <div class="arrow-icon">
         ▾
       </div>

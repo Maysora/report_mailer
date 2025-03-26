@@ -27,7 +27,7 @@ class ReportMailProject < ApplicationRecord
     if new_project.report_mail != report_mail
       tasks.duplicates!(new_project)
     else
-      tasks.duplicates!(new_project, exclude_done: false, minimum: 0)
+      tasks.duplicates!(new_project, exclude_done: false)
     end
     new_project
   end
@@ -59,5 +59,13 @@ class ReportMailProject < ApplicationRecord
 
   def arr_to
     to&.split(';')&.map(&:strip) || []
+  end
+
+  def total_tasks_weight
+    active_tasks.sum(&:weight)
+  end
+
+  def total_tasks_weight_percentage
+    active_tasks.map(&:weight_percentage).compact.sum
   end
 end

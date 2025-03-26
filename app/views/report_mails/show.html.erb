@@ -21,7 +21,7 @@
     <div id="report_mail_projects" class="mb-4">
       <% @report_mail.projects.includes(:active_tasks).each do |project| %>
         <div class="mb-2 h4 ps-3">
-          <%= link_to safe_join([project.long_name, project.active_tasks.present? ? content_tag(:span, project.active_tasks.length, class: 'badge rounded-pill text-bg-primary') : nil].compact, ' '), [@report_mail, project], class: "btn btn-sm btn-outline-#{project.active? ? 'primary' : 'secondary'}" %>
+          <%= link_to safe_join([project.long_name, project.active_tasks.present? ? content_tag(:span, task_stats(project), class: 'badge rounded-pill text-bg-primary') : nil].compact, ' '), [@report_mail, project], class: "btn btn-sm btn-outline-#{project.active? ? 'primary' : 'secondary'}" %>
         </div>
       <% end %>
     </div>

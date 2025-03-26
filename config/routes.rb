@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
   resources :report_mails do
+    collection do
+      get :monthly_summary
+    end
     member do
       post :send_email
       post :duplicate
