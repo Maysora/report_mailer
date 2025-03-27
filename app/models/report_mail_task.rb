@@ -7,7 +7,8 @@ class ReportMailTask < ApplicationRecord
   validates :weight, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 1_000, allow_nil: false}
   validates :weight_percentage, numericality: { only_integer: false, greater_than_or_equal_to: 0, less_than_or_equal_to: 100, allow_nil: true}
 
-  after_save :calculate_weight_percentage!, if: -> { saved_change_to_weight? && project&.report_mail && !project.report_mail.draft? }
+  after_save :calculate_weight_percentage!, if: -> { (saved_change_to_id? || saved_change_to_weight?) && project&.report_mail }
+  after_destroy :calculate_weight_percentage!
 
   scope :done, -> { where('progress_status ILIKE ?', 'done') }
   scope :not_done, -> { where.not('progress_status ILIKE ?', 'done') }
