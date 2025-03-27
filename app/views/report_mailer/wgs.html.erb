@@ -65,7 +65,7 @@
     <td width="67" bgcolor="#2a6099" style="background: #2a6099" style="border: 1px solid #2a6099; border-bottom: none;"><center>
       <font color="#ffffff"><font face="Helvetica Neue"><font size="2" style="font-size: 9pt;"><b>Ticket#</b></font></font></font></center>
     </td>
-    <td bgcolor="#2a6099" style="background: #2a6099" style="border-top: 1px solid #ffffff; border-bottom: none; border-left: 1px solid #ffffff; border-right: none; "><center>
+    <td colspan="2" bgcolor="#2a6099" style="background: #2a6099" style="border-top: 1px solid #ffffff; border-bottom: none; border-left: 1px solid #ffffff; border-right: none; "><center>
       <font color="#ffffff"><font face="Helvetica Neue"><font size="2" style="font-size: 9pt"><b>Description</b></font></font></font>
     </td>
     <td width="88" bgcolor="#2a6099" style="background: #2a6099" style="border-top: 1px solid #ffffff; border-bottom: none; border-left: none; border-right: none; "><center>
@@ -88,6 +88,11 @@
       <td style="border-top: 1px solid #2a6099; border-bottom: 1px solid #2a6099; border-left: 1px solid #2a6099; border-right: none;  overflow: hidden;">
         <font face="Helvetica Neue" size="2" style="font-size: 9pt">
           <%= render_markdown(task.description.present? ? "#{task.project.name} #{task.description}" : '-') %>
+        </font>
+      </td>
+      <td style="border-top: 1px solid #2a6099; border-bottom: 1px solid #2a6099; border-left: none; border-right: none;  overflow: hidden; width: 1px; text-align: right; color: rgb(153, 153, 153);">
+        <font face="Helvetica Neue" size="2" style="font-size: 9pt">
+          <%= content_tag :div, number_to_percentage(task.weight_percentage, strip_insignificant_zeros: true) %>
         </font>
       </td>
       <td width="88" style="border-top: 1px solid #2a6099; border-bottom: 1px solid #2a6099; border-left: 1px solid #2a6099; border-right: none; ">

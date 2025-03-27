@@ -27,7 +27,7 @@
         <%- remainder = 100 -%>
         <%- summary_data.each do |data| -%>
           <%-
-            weight_percentage = [remainder, data[:weight_percentage].round(2)].min
+            weight_percentage = [remainder, data[:weight_percentage].round].min
             next if weight_percentage.zero?
 
             remainder -= weight_percentage

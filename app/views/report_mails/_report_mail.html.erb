@@ -1,9 +1,9 @@
 <div id="<%= dom_id report_mail %>" class="card border-primary">
   <div class="card-body">
-    <p class="<%= 'bg-warning' if !report_mail.sent? && report_mail.date != Time.zone.today %>">
+    <%= content_tag :p, class: date_css_class(report_mail) do %>
       <strong>Date:</strong>
       <%= report_mail.date %>
-    </p>
+    <% end %>
 
     <p>
       <strong>To:</strong>
