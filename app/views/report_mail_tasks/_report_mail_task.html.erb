@@ -18,7 +18,7 @@
     <p>
       <strong>Weight:</strong>
       <%= number_with_delimiter(report_mail_task.weight) %>
-      <%= " (" + number_to_percentage(report_mail_task.weight_percentage) + ")" if report_mail_task.weight_percentage %>
+      <%= " (" + number_to_percentage(report_mail_task.weight_percentage, strip_insignificant_zeros: true) + ")" if report_mail_task.weight_percentage %>
     </p>
 
     <p>
