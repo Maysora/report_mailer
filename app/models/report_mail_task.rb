@@ -1,7 +1,7 @@
 class ReportMailTask < ApplicationRecord
   belongs_to :project, class_name: 'ReportMailProject', foreign_key: 'report_mail_project_id', inverse_of: :tasks
 
-  enum :category, bugfix: 'bugfix', feature: 'feature', research: 'research', other: 'other'
+  enum :category, bugfix: 'bugfix', feature: 'feature', research: 'research', refactor: 'refactor', other: 'other'
 
   validates :description, presence: true
   validates :weight, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 1_000, allow_nil: false}
