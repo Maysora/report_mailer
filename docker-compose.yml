@@ -41,16 +41,15 @@ services:
       MAIL_PASSWORD: change_me
       MAIL_AUTHENTICATION: plain
     command: bash -c "rm -f tmp/pids/server.pid && ./bin/rails server -p 80 -b '0.0.0.0'"
-    stop_signal: SIGINT
     ports:
       - "80:80"
     tty: true
     stdin_open: true
-  # js:
-  #   <<: *default
-  #   command: yarn build --watch
-  #   ports: []
-  # css:
-  #   <<: *default
-  #   command: yarn build:css --watch
-  #   ports: []
+  js:
+    <<: *default
+    command: yarn build --watch
+    ports: []
+  css:
+    <<: *default
+    command: yarn watch:css
+    ports: []

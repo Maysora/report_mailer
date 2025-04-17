@@ -112,7 +112,7 @@ class ReportMailsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def report_mail_params
-      params.require(:report_mail).permit(:date, :to, :cc, :subject, :template, :signature)
+      params.require(:report_mail).permit(:date, :to, :cc, :subject, :template, :signature, :status)
     end
 
     def date_filter

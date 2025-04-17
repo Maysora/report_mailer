@@ -4,12 +4,12 @@
   <div class="card-body">
     <%= render @report_mail_project %>
 
-    <%= link_to "Edit this report mail project", [:edit, @report_mail, @report_mail_project] %>
     <div class="my-4 d-flex justify-content-between">
-      <%= button_to "Duplicate", [:duplicate, @report_mail, @report_mail_project], method: :post %>
-      <%= button_to "Destroy this report mail project", [@report_mail, @report_mail_project], method: :delete %>
+      <%= link_to "Edit", [:edit, @report_mail, @report_mail_project], class: 'btn btn-primary' %>
+      <%= button_to "Duplicate", [:duplicate, @report_mail, @report_mail_project], method: :post, class: 'btn btn-secondary' %>
+      <%= button_to "Destroy this report mail project", [@report_mail, @report_mail_project], method: :delete, data: { turbo_confirm: 'Delete?' }, class: 'btn btn-danger' %>
     </div>
-    <%= link_to "Back to report mail", @report_mail %>
+    <%= link_to "Back to report mail", [@report_mail, anchor: dom_id(@report_mail_project)] %>
 
   </div>
 </div>
@@ -19,13 +19,7 @@
     <h1>Report mail tasks</h1>
 
     <div id="report_mail_tasks">
-      <% @report_mail_project.tasks.each do |report_mail_task| %>
-        <%= render report_mail_task %>
-        <p>
-          <%= link_to "Edit this report mail task", [:edit, @report_mail_project, report_mail_task] %> |
-          <%= link_to "Show this report mail task", [@report_mail_project, report_mail_task] %>
-        </p>
-      <% end %>
+      <%= render @report_mail_project.tasks %>
     </div>
 
     <%= link_to "New report mail task", new_report_mail_project_report_mail_task_path(@report_mail_project) %>

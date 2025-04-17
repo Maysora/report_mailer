@@ -1,2 +1,9 @@
 @import 'bootstrap/scss/bootstrap';
 @import 'bootstrap-icons/font/bootstrap-icons';
+
+@keyframes highlight {
+  10% { background-color: $yellow-100 }
+}
+.anchor-active {
+  animation: 5s highlight;
+}

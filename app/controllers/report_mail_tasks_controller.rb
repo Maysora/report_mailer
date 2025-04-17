@@ -25,7 +25,7 @@ class ReportMailTasksController < ApplicationController
     @report_mail_task = @project.tasks.new(report_mail_task_params)
 
     if @report_mail_task.save
-      redirect_to [@project.report_mail, @project], notice: "Report mail task was successfully created."
+      redirect_to [@project.report_mail, @project, anchor: helpers.dom_id(@report_mail_task)], notice: "Report mail task was successfully created."
     else
       render :new, status: :unprocessable_entity
     end
@@ -34,7 +34,7 @@ class ReportMailTasksController < ApplicationController
   # PATCH/PUT /report_mail_tasks/1
   def update
     if @report_mail_task.update(report_mail_task_params)
-      redirect_to [@project.report_mail, @project], notice: "Report mail task was successfully updated.", status: :see_other
+      redirect_to [@project.report_mail, @project, anchor: helpers.dom_id(@report_mail_task)], notice: "Report mail task was successfully updated.", status: :see_other
     else
       render :edit, status: :unprocessable_entity
     end
