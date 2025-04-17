@@ -1,0 +1,66 @@
+{
+  "name": "Report mailer",
+  "description": "Tool for sending work report email.",
+  "keywords": ["productivity", "tools", "mailer"],
+  "repository": "https://github.com/Maysora/report_mailer",
+  "env": {
+    "BUNDLE_WITHOUT": "development",
+    "RAILS_ENV": "production",
+    "RACK_ENV": "production",
+    "DB_HOSTNAME": {
+      "description": "Database host",
+      "required": true
+    },
+    "DB_NAME": {
+      "description": "Database name",
+      "required": true
+    },
+    "DB_USERNAME": {
+      "description": "Database username",
+      "required": true
+    },
+    "DB_PASSWORD": {
+      "description": "Database password",
+      "required": true
+    },
+    "GEMFILE_RUBY_VERSION": "3.1.4",
+    "APP_HOST": {
+      "description": "www.example.com",
+      "required": true
+    },
+    "APP_EMAIL": {
+      "description": "test@example.invalid",
+      "required": true
+    },
+    "MAIL_ENABLE": {
+      "description": "Enable email sending"
+    },
+    "MAIL_METHOD": {
+      "description": "smtp"
+    },
+    "MAIL_ADDRESS": {
+      "description": "change_me"
+    },
+    "MAIL_PORT": {
+      "description": "587"
+    },
+    "MAIL_DOMAIN": {
+      "description": "localhost"
+    },
+    "MAIL_USERNAME": {
+      "description": "change_me"
+    },
+    "MAIL_PASSWORD": {
+      "description": "change_me"
+    },
+    "MAIL_AUTHENTICATION": {
+      "description": "plain"
+    }
+  },
+  "scripts": {
+    "dokku": {
+      "predeploy": "bundle exec rails assets:precompile",
+      "postdeploy": "bundle exec rails db:migrate"
+    }
+  }
+}
