@@ -9,6 +9,26 @@ module ReportMailsHelper
     end
   end
 
+  def report_mail_buttons(report_mail)
+    duplicate_button =
+      if report_mail.date.today? && !report_mail.sent?
+        nil
+      elsif !report_mail.date.today? && report_mail.sent?
+        button_to('Duplicate', [:duplicate, report_mail], method: :post, class: 'btn btn-success')
+      else
+        button_to('Duplicate', [:duplicate, report_mail], method: :post, data: { turbo_confirm: 'Duplicate?' }, class: 'btn btn-warning')
+      end
+    send_button =
+      if report_mail.draft?
+        button_to('Ready', [:send_email, report_mail], method: :post, class: 'btn btn-success')
+      elsif report_mail.ready?
+        button_to('Send this report mail', [:send_email, report_mail], method: :post, data: { turbo_confirm: 'Send this report mail?' }, class: 'btn btn-success')
+      else
+        button_to('Draft', [:send_email, report_mail], method: :post, data: { turbo_confirm: 'Set draft?' }, class: 'btn btn-warning')
+      end
+    safe_join([duplicate_button, send_button].compact, "\n")
+  end
+
   def task_stats(project)
     project.active_tasks.group_by(&:category).map do |category, tasks_by_category|
       "#{category.presence || 'N/A'} [" + [
