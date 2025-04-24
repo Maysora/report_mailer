@@ -11,7 +11,7 @@ class ReportMail < ApplicationRecord
 
   validates :date, presence: true
   validates :message_id, uniqueness: { allow_nil: true }
-  validates :total_tasks_weight_percentage, numericality: { greater_than_or_equal_to: 100.0, less_than_or_equal_to: 100.001 }, if: -> { status_changed? && ready? }
+  validates :total_tasks_weight_percentage, numericality: { greater_than_or_equal_to: 99.999, less_than_or_equal_to: 100.001 }, if: -> { status_changed? && ready? }
 
   scope :with_complete_data, -> {
     distinct
