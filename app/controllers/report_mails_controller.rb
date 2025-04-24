@@ -35,10 +35,12 @@ class ReportMailsController < ApplicationController
             tasks_by_project
               .group_by(&:category)
               .map do |category, tasks_by_category|
+                weight_percentage = ((tasks_by_category.sum(&:weight_percentage) / total_weight_percentage) * 100).round(3)
                 {
                   project_name: project_name,
                   category: category,
-                  weight_percentage: (tasks_by_category.sum(&:weight_percentage) / total_weight_percentage) * 100
+                  weight_percentage: weight_percentage,
+                  weight_percentage_rounded: weight_percentage.round
                 }
               end
         end.flatten(1)

@@ -7,48 +7,51 @@
       sub_data.sort_by { |datum| -datum[:weight_percentage] }
     end
     .flatten(1)
+
+  # makes sure weight percentage total is 100% ; adds remainder to the first (highest) weight percentage
+  %i[weight_percentage weight_percentage_rounded].each do |attr|
+    remainder = 100.0 - sorted_summary_data.sum { |datum| datum[attr] }
+    sorted_summary_data[0][attr] += remainder
+  end
 -%>
 <div class="card-group">
   <div class="card border-primary">
     <div class="card-body">
       <h5 class="card-title">Summary</h5>
-      <ul class="list-unstyled user-select-all">
+      <div class="user-select-all">
         <%- sorted_summary_data.each do |datum| -%>
           <%-
             weight_percentage = datum[:weight_percentage]
             next if weight_percentage.zero?
           -%>
-          <li>
+          <div>
             -
             <%= datum[:project_name] %> |
             <%= datum[:category] %> -
             <%= number_to_percentage(weight_percentage, strip_insignificant_zeros: true) %>
-          </li>
+          </div>
         <%- end -%>
-      </ul>
+      </div>
     </div>
   </div>
 
   <div class="card border-success">
     <div class="card-body">
       <h5 class="card-title">Rounded</h5>
-      <ul class="list-unstyled user-select-all">
-        <%- remainder = 100 -%>
+      <div class="user-select-all">
         <%- sorted_summary_data.each do |datum| -%>
           <%-
-            weight_percentage = [remainder, datum[:weight_percentage].round].min
+            weight_percentage = datum[:weight_percentage_rounded]
             next if weight_percentage.zero?
-
-            remainder -= weight_percentage
           -%>
-          <li>
+          <div>
             -
             <%= datum[:project_name] %> |
             <%= datum[:category] %> -
             <%= number_to_percentage(weight_percentage, strip_insignificant_zeros: true) %>
-          </li>
+          </div>
         <%- end -%>
-      </ul>
+      </div>
     </div>
   </div>
 </div>
