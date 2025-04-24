@@ -38,7 +38,7 @@ addEventListener('turbo:load', (event) => {
     const anchorId = location.hash.slice(1)
     const element = document.getElementById(anchorId)
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' })
+      element.scrollIntoView({ behavior: 'smooth', block: 'center' })
       element.classList.add('anchor-active')
     }
   }
