@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_03_26_113120) do
+ActiveRecord::Schema[7.0].define(version: 2025_05_15_092504) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -35,7 +35,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_26_113120) do
     t.text "notes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "weight", default: 1, null: false
+    t.integer "weight", default: 10, null: false
     t.decimal "weight_percentage", precision: 6, scale: 3
     t.string "category", limit: 10
     t.index ["report_mail_project_id"], name: "index_report_mail_tasks_on_report_mail_project_id"

@@ -43,7 +43,7 @@ class ReportMailTask < ApplicationRecord
   def duplicate!(new_project)
     new_task = ReportMailTask.new(self.attributes.except(*%w[id report_mail_project_id weight_percentage notes created_at updated_at]))
     new_task.project = new_project
-    new_task.weight ||= 1
+    new_task.weight ||= 10
     new_task.save!
   end
 
