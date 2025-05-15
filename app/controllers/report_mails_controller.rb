@@ -8,7 +8,7 @@ class ReportMailsController < ApplicationController
       if params[:incomplete_tasks_data]
         @report_mails
           .with_incomplete_data
-          .where(date: date_filter.all_month)
+          .where(date: date_filter)
       else
         @report_mails.limit(50)
       end
@@ -20,7 +20,7 @@ class ReportMailsController < ApplicationController
       .with_complete_data
       .joins(project: :report_mail)
       .merge(
-        ReportMail.where(date: date_filter.all_month)
+        ReportMail.where(date: date_filter)
       )
       .select("#{ReportMailTask.table_name}.*")
       .select("#{ReportMailProject.table_name}.name project_name")
@@ -118,6 +118,10 @@ class ReportMailsController < ApplicationController
     end
 
     def date_filter
-      @date_filter ||= params[:date].present? ? Time.zone.parse(params[:date]) : Time.zone.today
+      @date_filter ||=
+        begin
+          start_date = params[:date].present? ? Time.zone.parse(params[:date]).to_date : Time.zone.today.prev_month.change(day: 26)
+          (start_date..start_date.next_month.prev_day)
+        end
     end
 end
