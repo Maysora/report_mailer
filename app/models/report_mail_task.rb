@@ -29,7 +29,12 @@ class ReportMailTask < ApplicationRecord
   def self.calculate_weight_percentage!(total:)
     transaction do
       all.each do |task|
-        task.update! weight_percentage: ((task.weight.to_d / total) * 100).round(3)
+        task.update! weight_percentage:
+          if total.zero?
+            0
+          else
+            ((task.weight.to_d / total) * 100).round(3)
+          end
       end
     end
   end
