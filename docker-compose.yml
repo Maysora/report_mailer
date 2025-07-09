@@ -51,3 +51,13 @@ services:
     <<: *default
     command: yarn watch:css
     ports: []
+  ruby-lsp:
+    <<: *default
+    ports: []
+    profiles: ["ruby-lsp"]
+    volumes:
+      - .:/ruby-lsp
+      - gemcache_arm:/gemcache
+    working_dir: /ruby-lsp
+    environment:
+      BUNDLE_PATH: /gemcache
