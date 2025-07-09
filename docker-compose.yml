@@ -6,8 +6,6 @@ volumes:
 services:
   db:
     image: postgres:16
-    ports:
-      - "5432:5432"
     environment:
       POSTGRES_PASSWORD: change_me
     volumes:
