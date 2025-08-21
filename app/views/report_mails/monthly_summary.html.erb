@@ -16,7 +16,7 @@
           <span class="input-group-text">
             -
           </span>
-          <%= date_field_tag '_date_end', @date_filter.last, class: 'form-control', disabled: true %>
+          <%= date_field_tag 'end_date', @date_filter.last, class: 'form-control' %>
           <%= submit_tag 'Go', class: 'btn btn-primary' %>
         </div>
       </div>

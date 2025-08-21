@@ -120,8 +120,10 @@ class ReportMailsController < ApplicationController
     def date_filter
       @date_filter ||=
         begin
-          start_date = params[:date].present? ? Time.zone.parse(params[:date]).to_date : Time.zone.today.prev_month.change(day: 26)
-          (start_date..start_date.next_month.prev_day)
+          start_date = params[:date].present? ? Time.zone.parse(params[:date]).to_date : Time.zone.today.beginning_of_month
+          end_date = params[:end_date].present? ? Time.zone.parse(params[:end_date]).to_date : [Time.zone.today, start_date.next_month.prev_day].min
+          start_date, end_date = end_date, start_date if start_date > end_date
+          (start_date..end_date)
         end
     end
 end
