@@ -14,15 +14,20 @@
   </div>
 </div>
 
-<div class="card border-info mb-4">
-  <div class="card-body">
-    <h1>Report mail tasks</h1>
+<div class="mb-4 d-flex justify-content-between">
+  <%= link_to "New report mail task", new_report_mail_project_report_mail_task_path(@report_mail_project) %>
+</div>
 
-    <div id="report_mail_tasks">
-      <%= render @report_mail_project.tasks %>
+<div id="report_mail_tasks">
+  <%- @tasks.group_by(&:milestone).each do |milestone, tasks| -%>
+    <div class="card mb-4">
+      <div class="card-header">
+        <%= milestone&.name || '- No Milestone -' %>
+      </div>
+      <div class="card-body">
+        <%= render tasks %>
+      </div>
     </div>
-
-    <%= link_to "New report mail task", new_report_mail_project_report_mail_task_path(@report_mail_project) %>
-  </div>
+  <%- end -%>
 </div>
 

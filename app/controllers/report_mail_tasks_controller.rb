@@ -13,7 +13,7 @@ class ReportMailTasksController < ApplicationController
 
   # GET /report_mail_tasks/new
   def new
-    @report_mail_task = @project.tasks.new
+    @report_mail_task = @project.tasks.new(milestone: @project.default_milestone)
   end
 
   # GET /report_mail_tasks/1/edit
@@ -58,6 +58,6 @@ class ReportMailTasksController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def report_mail_task_params
-      params.require(:report_mail_task).permit(:issue_number, :category, :description, :weight, :progress_status, :deploy_status, :notes)
+      params.require(:report_mail_task).permit(:report_mail_milestone_id, :issue_number, :category, :description, :weight, :progress_status, :deploy_status, :notes)
     end
 end

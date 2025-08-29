@@ -1,0 +1,25 @@
+<div id="<%= dom_id report_mail_milestone %>" class="card mb-2">
+  <div class="card-body">
+    <p>
+      <strong>Name:</strong>
+      <%= report_mail_milestone.name %>
+    </p>
+
+    <p>
+      <strong>Category:</strong>
+      <%= report_mail_milestone.category %>
+    </p>
+
+    <p>
+      <strong>Priority:</strong>
+      <%= report_mail_milestone.priority %>
+    </p>
+
+    <div class="d-flex justify-content-between">
+      <%= link_to "Edit", [:edit, report_mail_milestone.project, report_mail_milestone], class: 'btn btn-primary' %>
+      <div class="d-inline-block">
+        <%= button_to "Delete", [report_mail_milestone.project, report_mail_milestone], method: :delete, data: { turbo_confirm: 'Delete?' }, class: 'btn btn-danger' %>
+      </div>
+    </div>
+  </div>
+</div>

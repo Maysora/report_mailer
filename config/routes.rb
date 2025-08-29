@@ -15,6 +15,7 @@ Rails.application.routes.draw do
     end
   end
   resources :report_mail_projects, only: [] do
+    resources :report_mail_milestones, only: %i[index new create edit update destroy]
     resources :report_mail_tasks
   end
   resources :settings

@@ -10,9 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_05_15_092504) do
+ActiveRecord::Schema[7.0].define(version: 2025_08_29_084654) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "report_mail_milestones", force: :cascade do |t|
+    t.bigint "report_mail_project_id", null: false
+    t.string "name"
+    t.string "category", limit: 10
+    t.integer "priority", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["report_mail_project_id"], name: "index_report_mail_milestones_on_report_mail_project_id"
+  end
 
   create_table "report_mail_projects", force: :cascade do |t|
     t.bigint "report_mail_id", null: false
@@ -38,6 +48,8 @@ ActiveRecord::Schema[7.0].define(version: 2025_05_15_092504) do
     t.integer "weight", default: 10, null: false
     t.decimal "weight_percentage", precision: 6, scale: 3
     t.string "category", limit: 10
+    t.bigint "report_mail_milestone_id"
+    t.index ["report_mail_milestone_id"], name: "index_report_mail_tasks_on_report_mail_milestone_id"
     t.index ["report_mail_project_id"], name: "index_report_mail_tasks_on_report_mail_project_id"
   end
 
@@ -62,6 +74,8 @@ ActiveRecord::Schema[7.0].define(version: 2025_05_15_092504) do
     t.index ["name"], name: "index_settings_on_name"
   end
 
+  add_foreign_key "report_mail_milestones", "report_mail_projects"
   add_foreign_key "report_mail_projects", "report_mails"
+  add_foreign_key "report_mail_tasks", "report_mail_milestones"
   add_foreign_key "report_mail_tasks", "report_mail_projects"
 end

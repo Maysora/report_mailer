@@ -16,6 +16,12 @@
     </p>
 
     <p>
+      <strong>Milestones:</strong>
+      <%= report_mail_project.milestones.map(&:name).join(', ') %>
+      <%= link_to 'Change', [report_mail_project, :report_mail_milestones] %>
+    </p>
+
+    <p>
       <strong>Features ready title:</strong>
       <%= report_mail_project.features_ready_title %>
     </p>

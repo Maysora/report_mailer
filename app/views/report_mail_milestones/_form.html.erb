@@ -1,0 +1,32 @@
+<%= form_with(model: [@project, report_mail_milestone]) do |form| %>
+  <% if report_mail_milestone.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(report_mail_milestone.errors.count, "error") %> prohibited this report_mail_milestone from being saved:</h2>
+
+      <ul>
+        <% report_mail_milestone.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-2">
+    <%= form.label :name %>
+    <%= form.text_field :name, class: 'form-control', autofocus: true, required: true %>
+  </div>
+
+  <div class="mb-2">
+    <%= form.label :category %>
+    <%= form.collection_select :category, ReportMailMilestone.categories, :first, :last, {}, class: 'form-select' %>
+  </div>
+
+  <div class="mb-2">
+    <%= form.label :priority %>
+    <%= form.number_field :priority, class: 'form-control', min: 0, max: 1_000, step: 1 %>
+  </div>
+
+  <div>
+    <%= form.submit class: 'btn btn-primary' %>
+  </div>
+<% end %>

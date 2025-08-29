@@ -17,6 +17,11 @@
   </div>
 
   <div class="mb-2">
+    <%= form.label :report_mail_milestone_id %>
+    <%= form.collection_select :report_mail_milestone_id, @project.milestones, :id, :name, { include_blank: '- No Milestone -' }, class: 'form-select' %>
+  </div>
+
+  <div class="mb-2">
     <%= form.label :category %>
     <%= form.collection_select :category, ReportMailTask.categories, :first, :last, { include_blank: true }, class: 'form-select', autofocus: form.object.category.blank?, required: true %>
   </div>

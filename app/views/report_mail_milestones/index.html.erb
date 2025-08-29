@@ -1,0 +1,15 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Report mail milestones</h1>
+
+<div class="mb-4">
+  <%= link_to "Back to report mail projects", [@project.report_mail, @project] %>
+  <%= link_to "New report mail milestones", new_report_mail_project_report_mail_milestone_path(@project) %>
+</div>
+
+<div id="report_mail_milestones">
+  <% @report_mail_milestones.each do |report_mail_milestone| %>
+    <%= render report_mail_milestone %>
+  <% end %>
+</div>
+

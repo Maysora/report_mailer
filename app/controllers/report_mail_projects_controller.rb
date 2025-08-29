@@ -9,6 +9,7 @@ class ReportMailProjectsController < ApplicationController
 
   # GET /report_mail_projects/1
   def show
+    @tasks = @report_mail_project.tasks.reorder('report_mail_milestones.priority': :desc, id: :asc).includes(:milestone)
   end
 
   # GET /report_mail_projects/new

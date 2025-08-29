@@ -1,5 +1,6 @@
 class ReportMailTask < ApplicationRecord
   belongs_to :project, class_name: 'ReportMailProject', foreign_key: 'report_mail_project_id', inverse_of: :tasks
+  belongs_to :milestone, class_name: 'ReportMailMilestone', foreign_key: 'report_mail_milestone_id', optional: true
 
   enum :category, bugfix: 'bugfix', feature: 'feature', research: 'research', refactor: 'refactor', other: 'other'
 
@@ -48,6 +49,7 @@ class ReportMailTask < ApplicationRecord
   def duplicate!(new_project)
     new_task = ReportMailTask.new(self.attributes.except(*%w[id report_mail_project_id weight_percentage notes created_at updated_at]))
     new_task.project = new_project
+    new_task.milestone = new_project.milestones.detect { |milestone| milestone.name == self.milestone.name } if self.milestone
     new_task.weight ||= 10
     new_task.save!
   end

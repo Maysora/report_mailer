@@ -2,6 +2,7 @@ class ReportMailProject < ApplicationRecord
   belongs_to :report_mail, inverse_of: :projects
   has_many :tasks, -> { order(:id) }, class_name: 'ReportMailTask', dependent: :destroy, inverse_of: :project
   has_many :active_tasks, -> { order(:id).active }, class_name: 'ReportMailTask', inverse_of: :project
+  has_many :milestones, -> { order(priority: :desc) }, class_name: 'ReportMailMilestone', dependent: :destroy, inverse_of: :project
 
   validates :name, presence: true
 
@@ -20,10 +21,15 @@ class ReportMailProject < ApplicationRecord
     end
   end
 
+  def default_milestone
+    milestones.first
+  end
+
   def duplicate!(new_report_mail = nil)
     new_project = ReportMailProject.new(self.attributes.except(*%w[id report_mail_id created_at updated_at]))
     new_project.report_mail = new_report_mail || report_mail
     new_project.save!
+    milestones.duplicates!(new_project)
     if new_project.report_mail != report_mail
       tasks.duplicates!(new_project)
     else
