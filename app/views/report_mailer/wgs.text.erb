@@ -16,7 +16,7 @@ Here's my work report on <%= @report.date.strftime('%e %b %Y') %>:
 <%= '-' * cols %>
 
 <%- end -%>
-<%- @report.projects.each do |project| -%>
+<%- @projects.each do |project| -%>
 <%- next unless project.features_ready.present? -%>
 <%= title_text = " #{project.name} ".center(cols - 2, '=') %>
 <%= " #{project.features_ready_title} ".center([title_text.length, cols - 2].min, '=') if project.features_ready_title.present? %>
