@@ -5,7 +5,10 @@
     <%= render @report_mail_project %>
 
     <div class="my-4 d-flex justify-content-between">
-      <%= link_to "Edit", [:edit, @report_mail, @report_mail_project], class: 'btn btn-primary' %>
+      <div class="d-flex flex-nowrap gap-1">
+        <%= link_to "Edit", [:edit, @report_mail, @report_mail_project], class: 'btn btn-primary' %>
+        <%= link_to "Preview", '#', onclick: "window.open('/rails/mailers/report_mailer/send_report?id=#{@report_mail.id}', 'mail_preview_#{@report_mail.id}'); return false;", class: 'btn btn-outline-primary' %>
+      </div>
       <%= button_to "Duplicate", [:duplicate, @report_mail, @report_mail_project], method: :post, class: 'btn btn-secondary' %>
       <%= button_to "Destroy this report mail project", [@report_mail, @report_mail_project], method: :delete, data: { turbo_confirm: 'Delete?' }, class: 'btn btn-danger' %>
     </div>
