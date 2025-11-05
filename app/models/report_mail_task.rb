@@ -8,6 +8,7 @@ class ReportMailTask < ApplicationRecord
   validates :weight, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 1_000, allow_nil: false}
   validates :weight_percentage, numericality: { only_integer: false, greater_than_or_equal_to: 0, less_than_or_equal_to: 100, allow_nil: true}
 
+  before_save :extract_issue_number!, if: -> { issue_number.blank? }
   after_save :calculate_weight_percentage!, if: -> { (saved_change_to_id? || saved_change_to_weight?) && project&.report_mail }
   after_destroy :calculate_weight_percentage!
 
@@ -66,5 +67,15 @@ class ReportMailTask < ApplicationRecord
       url = project&.server_url_for(status)
       url ? "[#{status}](#{url})" : status
     end.join(', ')
+  end
+
+  private
+
+  def extract_issue_number!
+    matches = description.match(/\A\[?(?<issue_number>#\d+)\]?\s+/)
+    return unless matches
+
+    self.issue_number = matches['issue_number']
+    self.description = description.remove(matches[0]).strip
   end
 end
